@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Temas - Hipoteca Smart ERP (Implementación Correcta)</title>
+    <style>
+        /* Tema Neutral (por defecto) */
+        :root {
+          --radius: 0.625rem;
+          --background: oklch(1 0 0);
+          --foreground: oklch(0.145 0 0);
+          --card: oklch(1 0 0);
+          --card-foreground: oklch(0.145 0 0);
+          --popover: oklch(1 0 0);
+          --popover-foreground: oklch(0.145 0 0);
+          --primary: oklch(0.205 0 0);
+          --primary-foreground: oklch(0.985 0 0);
+          --secondary: oklch(0.97 0 0);
+          --secondary-foreground: oklch(0.205 0 0);
+          --muted: oklch(0.97 0 0);
+          --muted-foreground: oklch(0.556 0 0);
+          --accent: oklch(0.97 0 0);
+          --accent-foreground: oklch(0.205 0 0);
+          --destructive: oklch(0.577 0.245 27.325);
+          --destructive-foreground: oklch(0.985 0 0);
+          --border: oklch(0.922 0 0);
+          --input: oklch(0.922 0 0);
+          --ring: oklch(0.708 0 0);
+        }
+
+        .dark {
+          --background: oklch(0.145 0 0);
+          --foreground: oklch(0.985 0 0);
+          --card: oklch(0.205 0 0);
+          --card-foreground: oklch(0.985 0 0);
+          --popover: oklch(0.205 0 0);
+          --popover-foreground: oklch(0.985 0 0);
+          --primary: oklch(0.922 0 0);
+          --primary-foreground: oklch(0.205 0 0);
+          --secondary: oklch(0.269 0 0);
+          --secondary-foreground: oklch(0.985 0 0);
+          --muted: oklch(0.269 0 0);
+          --muted-foreground: oklch(0.708 0 0);
+          --accent: oklch(0.269 0 0);
+          --accent-foreground: oklch(0.985 0 0);
+          --destructive: oklch(0.704 0.191 22.216);
+          --destructive-foreground: oklch(0.985 0 0);
+          --border: oklch(1 0 0 / 10%);
+          --input: oklch(1 0 0 / 15%);
+          --ring: oklch(0.556 0 0);
+        }
+
+        /* Tema Pastel */
+        .pastel {
+          --background: hsl(223 56% 99%);
+          --foreground: hsl(223 66% 3%);
+          --muted: hsl(43 33% 91%);
+          --muted-foreground: hsl(43 4% 28%);
+          --popover: hsl(223 56% 99%);
+          --popover-foreground: hsl(223 66% 3%);
+          --card: hsl(223 56% 99%);
+          --card-foreground: hsl(223 66% 3%);
+          --border: hsl(223 7% 89%);
+          --input: hsl(223 7% 89%);
+          --primary: hsl(43.53 89.47% 88.82%);
+          --primary-foreground: hsl(42.86 91.3% 9.02%);
+          --secondary: hsl(222.35 89.47% 88.82%);
+          --secondary-foreground: hsl(222.99 90.54% 29.02%);
+          --accent: hsl(43 91% 89%);
+          --accent-foreground: hsl(43 91% 9%);
+          --destructive: hsl(9 89% 23%);
+          --destructive-foreground: hsl(9 89% 83%);
+          --ring: hsl(223 91% 89%);
+        }
+
+        .pastel.dark {
+          --background: hsl(223 53% 2%);
+          --foreground: hsl(223 10% 98%);
+          --muted: hsl(43 33% 9%);
+          --muted-foreground: hsl(43 4% 72%);
+          --popover: hsl(223 53% 2%);
+          --popover-foreground: hsl(223 10% 98%);
+          --card: hsl(223 53% 2%);
+          --card-foreground: hsl(223 10% 98%);
+          --border: hsl(223 7% 10%);
+          --input: hsl(223 7% 10%);
+          --primary: hsl(223 91% 89%);
+          --primary-foreground: hsl(223 91% 29%);
+          --secondary: hsl(43 91% 89%);
+          --secondary-foreground: hsl(43 91% 9%);
+          --accent: hsl(43 91% 89%);
+          --accent-foreground: hsl(43 91% 9%);
+          --destructive: hsl(9 89% 53%);
+          --destructive-foreground: hsl(0 0% 100%);
+          --ring: hsl(223 91% 89%);
+        }
+
+        /* Tema Ocean */
+        .ocean {
+          --background: hsl(204 60% 98%);
+          --foreground: hsl(204 70% 4%);
+          --muted: hsl(204 21% 89%);
+          --muted-foreground: hsl(204 15% 40%);
+          --popover: hsl(204 60% 98%);
+          --popover-foreground: hsl(204 70% 4%);
+          --card: hsl(204 60% 97%);
+          --card-foreground: hsl(204 70% 3%);
+          --border: hsl(220 13% 91%);
+          --input: hsl(220 13% 91%);
+          --primary: hsl(204 98% 31%);
+          --primary-foreground: hsl(0 0% 100%);
+          --secondary: hsl(204 4% 92%);
+          --secondary-foreground: hsl(204 4% 32%);
+          --accent: hsl(204 13% 83%);
+          --accent-foreground: hsl(204 13% 23%);
+          --destructive: hsl(15 88% 42%);
+          --destructive-foreground: hsl(0 0% 100%);
+          --ring: hsl(204 98% 31%);
+        }
+
+        .ocean.dark {
+          --background: hsl(204 43% 4%);
+          --foreground: hsl(204 31% 99%);
+          --muted: hsl(204 21% 11%);
+          --muted-foreground: hsl(204 15% 60%);
+          --popover: hsl(204 43% 4%);
+          --popover-foreground: hsl(204 31% 99%);
+          --card: hsl(204 43% 5%);
+          --card-foreground: hsl(0 0% 100%);
+          --border: hsl(215 27.9% 16.9%);
+          --input: hsl(215 27.9% 16.9%);
+          --primary: hsl(204 98% 31%);
+          --primary-foreground: hsl(0 0% 100%);
+          --secondary: hsl(204 3% 18%);
+          --secondary-foreground: hsl(204 3% 78%);
+          --accent: hsl(204 9% 28%);
+          --accent-foreground: hsl(204 9% 88%);
+          --destructive: hsl(15 88% 53%);
+          --destructive-foreground: hsl(0 0% 100%);
+          --ring: hsl(204 98% 31%);
+        }
+
+        /* Tema Militar */
+        .militar {
+          --background: hsl(64 38% 98%);
+          --foreground: hsl(64 58% 0%);
+          --muted: hsl(64 35% 94%);
+          --muted-foreground: hsl(64 13% 27%);
+          --popover: hsl(64 38% 98%);
+          --popover-foreground: hsl(64 58% 0%);
+          --card: hsl(64 38% 98%);
+          --card-foreground: hsl(64 58% 0%);
+          --border: hsl(64 2% 88%);
+          --input: hsl(64 2% 88%);
+          --primary: hsl(64 15% 61%);
+          --primary-foreground: hsl(64 15% 1%);
+          --secondary: hsl(64 11% 89%);
+          --secondary-foreground: hsl(64 11% 29%);
+          --accent: hsl(64 11% 89%);
+          --accent-foreground: hsl(64 11% 29%);
+          --destructive: hsl(8 93% 39%);
+          --destructive-foreground: hsl(0 0% 100%);
+          --ring: hsl(64 15% 61%);
+        }
+
+        .militar.dark {
+          --background: hsl(64 34% 4%);
+          --foreground: hsl(64 35% 97%);
+          --muted: hsl(64 35% 6%);
+          --muted-foreground: hsl(64 13% 73%);
+          --popover: hsl(64 34% 4%);
+          --popover-foreground: hsl(64 35% 97%);
+          --card: hsl(64 34% 4%);
+          --card-foreground: hsl(64 35% 97%);
+          --border: hsl(64 2% 12%);
+          --input: hsl(64 2% 12%);
+          --primary: hsl(64 15% 61%);
+          --primary-foreground: hsl(64 15% 1%);
+          --secondary: hsl(64 20% 10%);
+          --secondary-foreground: hsl(64 20% 70%);
+          --accent: hsl(64 20% 10%);
+          --accent-foreground: hsl(64 20% 70%);
+          --destructive: hsl(8 93% 49%);
+          --destructive-foreground: hsl(0 0% 100%);
+          --ring: hsl(64 15% 61%);
+        }
+
+        /* Tema Contraste */
+        .contraste {
+          --background: hsl(166 60% 99%);
+          --foreground: hsl(166 70% 0%);
+          --muted: hsl(346 24% 91%);
+          --muted-foreground: hsl(346 0% 27%);
+          --popover: hsl(166 60% 98%);
+          --popover-foreground: hsl(0 0% 0%);
+          --card: hsl(166 60% 98%);
+          --card-foreground: hsl(0 0% 0%);
+          --border: hsl(166 3% 89%);
+          --input: hsl(166 3% 89%);
+          --primary: hsl(166 90% 46%);
+          --primary-foreground: hsl(166 90% 6%);
+          --secondary: hsl(346 90% 46%);
+          --secondary-foreground: hsl(0 0% 100%);
+          --accent: hsl(346 90% 46%);
+          --accent-foreground: hsl(0 0% 100%);
+          --destructive: hsl(21 80% 21%);
+          --destructive-foreground: hsl(21 80% 81%);
+          --ring: hsl(166 90% 46%);
+        }
+
+        .contraste.dark {
+          --background: hsl(166 33% 3%);
+          --foreground: hsl(166 33% 98%);
+          --muted: hsl(346 24% 9%);
+          --muted-foreground: hsl(346 0% 73%);
+          --popover: hsl(166 33% 4%);
+          --popover-foreground: hsl(166 33% 99%);
+          --card: hsl(166 33% 4%);
+          --card-foreground: hsl(166 33% 99%);
+          --border: hsl(166 3% 13%);
+          --input: hsl(166 3% 13%);
+          --primary: hsl(166 90% 46%);
+          --primary-foreground: hsl(166 90% 6%);
+          --secondary: hsl(346 90% 46%);
+          --secondary-foreground: hsl(0 0% 100%);
+          --accent: hsl(346 90% 46%);
+          --accent-foreground: hsl(0 0% 100%);
+          --destructive: hsl(21 80% 56%);
+          --destructive-foreground: hsl(0 0% 0%);
+          --ring: hsl(166 90% 46%);
+        }
+
+        /* Estilos base usando las variables CSS correctas */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--foreground);
+        }
+
+        .theme-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .theme-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            background-color: var(--card);
+            color: var(--card-foreground);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .theme-btn:hover {
+            background-color: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .theme-btn.active {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            border-color: var(--primary);
+        }
+
+        .dark-mode-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            background-color: var(--card);
+            color: var(--card-foreground);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .dark-mode-btn:hover {
+            background-color: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .demo-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .demo-card {
+            background-color: var(--card);
+            color: var(--card-foreground);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-card h3 {
+            margin-top: 0;
+            color: var(--card-foreground);
+        }
+
+        .demo-button {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .demo-button:hover {
+            opacity: 0.9;
+        }
+
+        .demo-button.secondary {
+            background-color: var(--secondary);
+            color: var(--secondary-foreground);
+        }
+
+        .demo-input {
+            background-color: var(--input);
+            color: var(--foreground);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 6px;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--muted);
+            color: var(--muted-foreground);
+            border-radius: 8px;
+        }
+
+        .color-demo {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .color-box {
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .color-primary { background-color: var(--primary); color: var(--primary-foreground); }
+        .color-secondary { background-color: var(--secondary); color: var(--secondary-foreground); }
+        .color-accent { background-color: var(--accent); color: var(--accent-foreground); }
+        .color-muted { background-color: var(--muted); color: var(--muted-foreground); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Test de Temas - Hipoteca Smart ERP (Implementación Correcta)</h1>
+        
+        <div class="theme-buttons">
+            <button class="theme-btn active" onclick="setTheme('neutral')">Neutral</button>
+            <button class="theme-btn" onclick="setTheme('pastel')">Pastel</button>
+            <button class="theme-btn" onclick="setTheme('ocean')">Ocean</button>
+            <button class="theme-btn" onclick="setTheme('militar')">Militar</button>
+            <button class="theme-btn" onclick="setTheme('contraste')">Contraste</button>
+            <button class="dark-mode-btn" onclick="toggleDarkMode()">🌙 Modo Oscuro</button>
+        </div>
+
+        <div class="demo-cards">
+            <div class="demo-card">
+                <h3>Card de Ejemplo</h3>
+                <p>Este es un ejemplo de cómo se ven los componentes con el tema actual usando las variables CSS correctas.</p>
+                <button class="demo-button">Botón Primario</button>
+                <button class="demo-button secondary">Botón Secundario</button>
+            </div>
+
+            <div class="demo-card">
+                <h3>Formulario</h3>
+                <input type="text" class="demo-input" placeholder="Campo de texto">
+                <input type="email" class="demo-input" placeholder="Email">
+                <button class="demo-button">Enviar</button>
+            </div>
+
+            <div class="demo-card">
+                <h3>Colores del Tema</h3>
+                <div class="color-demo">
+                    <div class="color-box color-primary">Primary</div>
+                    <div class="color-box color-secondary">Secondary</div>
+                    <div class="color-box color-accent">Accent</div>
+                    <div class="color-box color-muted">Muted</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status" id="status">
+            Tema actual: <strong>Neutral</strong> | Modo: <strong>Claro</strong>
+        </div>
+    </div>
+
+    <script>
+        let currentTheme = 'neutral';
+        let isDarkMode = false;
+
+        function setTheme(theme) {
+            // Remover todas las clases de tema
+            document.documentElement.classList.remove('neutral', 'pastel', 'ocean', 'militar', 'contraste');
+            
+            // Agregar la nueva clase de tema
+            document.documentElement.classList.add(theme);
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentTheme = theme;
+            updateStatus();
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            
+            updateStatus();
+        }
+
+        function updateStatus() {
+            const status = document.getElementById('status');
+            const mode = isDarkMode ? 'Oscuro' : 'Claro';
+            status.innerHTML = `Tema actual: <strong>${currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1)}</strong> | Modo: <strong>${mode}</strong>`;
+        }
+    </script>
+</body>
+</html>

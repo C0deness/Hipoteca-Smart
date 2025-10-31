@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Regla predeterminada: acceso denegado
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Clients: usuarios autenticados pueden leer/escribir
+    match /clients/{docId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Mortgages: usuarios autenticados pueden leer/escribir
+    match /mortgages/{docId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Tasks: usuarios autenticados pueden leer/escribir
+    match /tasks/{docId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Payments: usuarios autenticados pueden leer/escribir
+    match /payments/{docId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Documents: usuarios autenticados pueden leer/escribir
+    match /documents/{docId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Leads: usuarios autenticados pueden leer/escribir, también permitir creación desde API
+    match /leads/{docId} {
+      allow read, write: if request.auth != null;
+      // Permitir creación desde API (validado por API Key en Functions)
+      allow create: if true;
+    }
+
+    // Collaborators: usuarios autenticados pueden leer/escribir, también permitir desde API
+    match /collaborators/{docId} {
+      allow read, write: if request.auth != null;
+      // Permitir escritura desde API (sin auth, pero validado por API Key en Functions)
+      allow create: if true;
+    }
+
+    // Notifications: solo el propietario puede leer/escribir
+    match /notifications/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null;
+    }
+
+    // User Settings: solo el propietario puede leer/escribir
+    match /userSettings/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Configuraciones públicas de solo lectura
+    match /publicConfigs/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
+    }
+  }
+}

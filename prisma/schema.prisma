@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messagesSent     Message[] @relation("MessageSender")
+  messagesReceived Message[] @relation("MessageReceiver")
+  documents        Document[]
+  mortgages        Mortgage[]
+
+  @@map("users")
+}
+
+model Client {
+  id          String       @id @default(cuid())
+  clientId    String       @unique // CLI-001, CLI-002, etc.
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  address     String
+  city        String
+  postalCode  String
+  country     String
+  status      ClientStatus @default(ACTIVE)
+  notes       String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  mortgages   Mortgage[]
+  documents   Document[]
+
+  @@map("clients")
+}
+
+model Mortgage {
+  id            String         @id @default(cuid())
+  clientId      String
+  amount        Float
+  interestRate  Float
+  termMonths    Int
+  monthlyPayment Float
+  status        MortgageStatus @default(PENDING)
+  startDate     DateTime?
+  endDate       DateTime?
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  client        Client         @relation(fields: [clientId], references: [id])
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+
+  @@map("mortgages")
+}
+
+model Document {
+  id          String       @id @default(cuid())
+  name        String
+  type        DocumentType
+  filePath    String
+  fileSize    Int
+  mimeType    String
+  isRequired  Boolean      @default(false)
+  isUploaded  Boolean      @default(false)
+  uploadedAt  DateTime?
+  clientId    String?
+  userId      String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  client      Client?      @relation(fields: [clientId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
+
+  @@map("documents")
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  senderId   String
+  receiverId String
+  content    String
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  sender     User     @relation("MessageSender", fields: [senderId], references: [id])
+  receiver   User     @relation("MessageReceiver", fields: [receiverId], references: [id])
+
+  @@map("messages")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+}
+
+enum MortgageStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  CLOSED
+}
+
+enum DocumentType {
+  INCOME_VERIFICATION
+  BANK_STATEMENTS
+  TAX_RETURNS
+  OTHER
+}
